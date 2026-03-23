@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>Relational Inventory Control & Stock Tracking System</title>
+
+<link rel="stylesheet" href="style.css">
+
+<!-- Chart -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js"></script>
+
+<script src="script.js" defer></script>
+</head>
+
+<body>
+
+<h1>📦 Relational Inventory Control & Stock Tracking System</h1>
+
+<!-- Top buttons -->
+<div class="topbar">
+  <button onclick="toggleDark()">🌙 Dark</button>
+  <button onclick="clearAll()">🗑 Clear All</button>
+</div>
+
+<!-- Dashboard -->
+<div class="dashboard">
+  <div class="box">
+    <span id="count">0</span>
+    <small>Total Products</small>
+  </div>
+
+  <div class="box green">
+    ₹ <span id="value">0</span>
+    <small>Total Value</small>
+  </div>
+</div>
+
+<!-- Add Product -->
+<div class="card form-card">
+  <h3>Add / Edit Product</h3>
+
+  <input id="name" placeholder="Product name">
+  <input id="category" placeholder="Category">
+  <input id="price" type="number" placeholder="Price">
+
+  <button onclick="saveProduct()">Save</button>
+  <button onclick="resetForm()">Clear</button>
+</div>
+
+<!-- Tools -->
+<div class="card tools">
+  <input id="search" placeholder="🔍 Search..." onkeyup="render()">
+
+  <select id="sort" onchange="render()">
+    <option value="">Sort</option>
+    <option value="name">Name</option>
+    <option value="price">Price</option>
+    <option value="stock">Stock</option>
+  </select>
+
+  <button onclick="exportCSV()">CSV</button>
+  <button onclick="exportJSON()">Backup</button>
+  <input type="file" onchange="importJSON(event)">
+</div>
+
+<!-- Table -->
+<div class="card">
+  <table id="table"></table>
+</div>
+
+<!-- Chart -->
+<div class="card">
+  <canvas id="chart"></canvas>
+</div>
+
+</body>
+</html>
