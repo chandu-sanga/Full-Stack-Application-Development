@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Relational Inventory Control & Stock Tracking System</title>
+
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Phosphor Icons -->
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js"></script>
+
+  <script src="admin.js" defer></script>
+</head>
+
+<body>
+  <script>
+    if (sessionStorage.getItem("isLoggedIn") !== "true") {
+      window.location.href = "login.html";
+    } else if (sessionStorage.getItem("userRole") !== "admin") {
+      window.location.href = "index.html";
+    }
+    function logout() {
+      sessionStorage.clear();
+      window.location.href = "login.html";
+    }
+  </script>
+  
+  <div class="background-effects">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+
+  <main class="container">
+    <header class="topbar">
+      <h1><i class="ph ph-shield-check"></i> Relational Inventory Control & Stock Tracking System</h1>
+      <div class="topbar-actions">
+        <a href="index.html" class="btn btn-outline" style="text-decoration: none;">
+          <i class="ph ph-house"></i> User Portal
+        </a>
+        <button id="themeToggle" class="icon-btn" onclick="toggleDark()" title="Toggle Theme">
+          <i class="ph ph-moon"></i>
+        </button>
+        <button class="btn btn-danger" onclick="logout()">
+          <i class="ph ph-sign-out"></i> Logout
+        </button>
+        <button class="btn btn-danger" onclick="clearAll()" style="display:none;">
+          <i class="ph ph-trash"></i> Reset System
+        </button>
+      </div>
+    </header>
+
+    <!-- Dashboard overview -->
+    <section class="dashboard">
+      <div class="stat-card">
+        <div class="stat-icon blue"><i class="ph ph-stack"></i></div>
+        <div class="stat-details">
+          <small>Total Products</small>
+          <span id="count">0</span>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon green"><i class="ph ph-currency-inr"></i></div>
+        <div class="stat-details">
+          <small>Total Value (₹)</small>
+          <span id="value">0</span>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon red"><i class="ph ph-warning-circle"></i></div>
+        <div class="stat-details">
+          <small>Low Stock Items</small>
+          <span id="lowStockCount">0</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="main-grid">
+      <!-- Left Column -->
+      <div class="left-panel">
+        <!-- Add Product -->
+        <div class="card form-card">
+          <h3><i class="ph ph-plus-circle"></i> Add / Edit Product</h3>
+          
+          <div class="input-group">
+            <label for="name">Product Name</label>
+            <input id="name" placeholder="E.g. Wireless Mouse">
+          </div>
+          
+          <div class="input-group">
+            <label for="category">Category</label>
+            <input id="category" placeholder="E.g. Electronics" list="categoryList">
+            <datalist id="categoryList"></datalist>
+          </div>
+          
+          <div class="input-group">
+            <label for="price">Unit Price (₹)</label>
+            <input id="price" type="number" placeholder="0.00" min="0" step="0.01">
+          </div>
+          
+          <div class="form-actions">
+            <button class="btn btn-primary" onclick="saveProduct()">Save Product</button>
+            <button class="btn btn-secondary" onclick="resetForm()">Clear</button>
+          </div>
+        </div>
+
+        <!-- Charts -->
+        <div class="card chart-card">
+          <h3><i class="ph ph-chart-bar"></i> Stock Levels</h3>
+          <div class="chart-container">
+            <canvas id="barChart"></canvas>
+          </div>
+        </div>
+
+        <div class="card chart-card">
+          <h3><i class="ph ph-chart-pieSlice"></i> Category Breakdown</h3>
+          <div class="chart-container">
+            <canvas id="pieChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column -->
+      <div class="right-panel">
+        <!-- Tools -->
+        <div class="card tools">
+          <div class="search-sort">
+            <div class="search-box">
+              <i class="ph ph-magnifying-glass"></i>
+              <input id="search" placeholder="Search products..." onkeyup="render()">
+            </div>
+            
+            <select id="catFilter" onchange="render()">
+              <option value="">All Categories</option>
+            </select>
+
+            <select id="sort" onchange="render()">
+              <option value="">Sort by...</option>
+              <option value="name">Name (A-Z)</option>
+              <option value="price">Price (High-Low)</option>
+              <option value="stock">Stock (High-Low)</option>
+            </select>
+          </div>
+
+          <div class="export-tools">
+            <button class="btn btn-outline" onclick="exportCSV()"><i class="ph ph-file-csv"></i> CSV</button>
+            <button class="btn btn-outline" onclick="exportJSON()"><i class="ph ph-download-simple"></i> Backup</button>
+            <label class="btn btn-outline file-upload">
+              <i class="ph ph-upload-simple"></i> Restore
+              <input type="file" onchange="importJSON(event)" accept=".json">
+            </label>
+          </div>
+        </div>
+
+        <!-- Table -->
+        <div class="card table-card">
+          <div class="table-responsive">
+            <table id="table">
+              <!-- Dynamically populated -->
+            </table>
+          </div>
+          
+          <!-- Pagination -->
+          <div id="pagination" class="pagination">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div id="toast-container"></div>
+
+</body>
+
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Login - Relational Inventory Control & Stock Tracking System</title>
+
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Phosphor Icons -->
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+  <link rel="stylesheet" href="style.css">
+  <script src="login.js" defer></script>
+</head>
+
+<body>
+  
+  <div class="background-effects">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+
+  <main class="container login-container">
+    <div class="card login-card">
+      <div class="login-header">
+        <i class="ph ph-lock-key"></i>
+        <h2>Admin Authentication</h2>
+        <p style="color: var(--text-muted); font-size: 0.875rem; margin-top: 0.5rem;">Access the Relational Inventory Control System</p>
+      </div>
+
+      <form id="loginForm">
+        <div class="input-group">
+          <label for="username">Username</label>
+          <div class="search-box" style="margin-top: 0;">
+            <i class="ph ph-user"></i>
+            <input type="text" id="username" placeholder="Enter username" required autofocus>
+          </div>
+        </div>
+        
+        <div class="input-group">
+          <label for="password">Password</label>
+          <div class="search-box" style="margin-top: 0;">
+            <i class="ph ph-key"></i>
+            <input type="password" id="password" placeholder="Enter password" required>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">
+          Sign In <i class="ph ph-arrow-right"></i>
+        </button>
+      </form>
+
+      <div style="text-align: center; margin-top: 1.5rem;">
+        <a href="index.html" style="color: var(--text-muted); text-decoration: none; font-size: 0.875rem;">
+          <i class="ph ph-caret-left"></i> Back to Dashboard
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <div id="toast-container"></div>
+
+</body>
+
+</html>

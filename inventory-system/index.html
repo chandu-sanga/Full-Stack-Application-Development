@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Portal Selection - Relational Inventory Control & Stock Tracking System</title>
+
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Phosphor Icons -->
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js"></script>
+
+  <script src="script.js" defer></script>
+</head>
+
+<body>
+  <div id="authCheck">
+    <!-- This will be toggled by script.js -->
+  </div>
+
+  <div class="background-effects">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+
+  <!-- Landing View (Shown if NOT logged in) -->
+  <div id="landingView" style="display: none;">
+    <main class="container" style="display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 90vh;">
+      <div style="text-align: center; margin-bottom: 3rem;">
+        <h1 style="font-size: 2.5rem; margin-bottom: 1rem; background: linear-gradient(to right, var(--primary), #8b5cf6); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">
+          Relational Inventory Control System
+        </h1>
+        <p style="color: var(--text-muted); font-size: 1.1rem;">Select your portal to continue</p>
+      </div>
+
+      <div class="dashboard" style="width: 100%; max-width: 800px; grid-template-columns: 1fr 1fr;">
+        <a href="user_login.html" class="stat-card" style="text-decoration: none; cursor: pointer; transition: transform 0.3s ease;">
+          <div class="stat-icon blue"><i class="ph ph-user"></i></div>
+          <div class="stat-details">
+            <span style="font-size: 1.25rem;">User Portal</span>
+            <small>View Stock & Analytics</small>
+          </div>
+        </a>
+
+        <a href="admin_login.html" class="stat-card" style="text-decoration: none; cursor: pointer; transition: transform 0.3s ease;">
+          <div class="stat-icon red"><i class="ph ph-shield-check"></i></div>
+          <div class="stat-details">
+            <span style="font-size: 1.25rem;">Admin Portal</span>
+            <small>Manage Stock & Users</small>
+          </div>
+        </a>
+      </div>
+    </main>
+  </div>
+
+  <!-- Dashboard View (Shown if logged in as user) -->
+  <div id="dashboardView" style="display: none;">
+    <main class="container">
+      <header class="topbar">
+        <h1><i class="ph ph-package"></i> Relational Inventory Control System</h1>
+        <div class="topbar-actions">
+          <button id="themeToggle" class="icon-btn" onclick="toggleDark()" title="Toggle Theme">
+            <i class="ph ph-moon"></i>
+          </button>
+          <button class="btn btn-danger" onclick="logout()">
+            <i class="ph ph-sign-out"></i> Logout
+          </button>
+        </div>
+      </header>
+
+      <!-- Dashboard stats -->
+      <section class="dashboard">
+        <div class="stat-card">
+          <div class="stat-icon blue"><i class="ph ph-stack"></i></div>
+          <div class="stat-details">
+            <small>Total Products</small>
+            <span id="count">0</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon green"><i class="ph ph-currency-inr"></i></div>
+          <div class="stat-details">
+            <small>Total Value (₹)</small>
+            <span id="value">0</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon red"><i class="ph ph-warning-circle"></i></div>
+          <div class="stat-details">
+            <small>Low Stock Items</small>
+            <span id="lowStockCount">0</span>
+          </div>
+        </div>
+      </section>
+
+      <div class="main-grid">
+        <div class="left-panel">
+          <div class="card chart-card">
+            <h3><i class="ph ph-chart-bar"></i> Stock Levels</h3>
+            <div class="chart-container"><canvas id="barChart"></canvas></div>
+          </div>
+          <div class="card chart-card">
+            <h3><i class="ph ph-chart-pieSlice"></i> Category Breakdown</h3>
+            <div class="chart-container"><canvas id="pieChart"></canvas></div>
+          </div>
+        </div>
+
+        <div class="right-panel">
+          <div class="card tools">
+            <div class="search-sort">
+              <div class="search-box">
+                <i class="ph ph-magnifying-glass"></i>
+                <input id="search" placeholder="Search products..." onkeyup="render()">
+              </div>
+              <select id="catFilter" onchange="render()"><option value="">All Categories</option></select>
+              <select id="sort" onchange="render()">
+                <option value="">Sort by...</option>
+                <option value="name">Name (A-Z)</option>
+                <option value="price">Price (High-Low)</option>
+                <option value="stock">Stock (High-Low)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="card table-card">
+            <div class="table-responsive"><table id="table"></table></div>
+            <div id="pagination" class="pagination"></div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <div id="toast-container"></div>
+</body>
+</html>

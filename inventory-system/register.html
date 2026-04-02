@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Create Account - Relational Inventory Control</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <link rel="stylesheet" href="style.css">
+  <script src="register.js" defer></script>
+</head>
+<body>
+  <div class="background-effects"><div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div></div>
+  <main class="container login-container">
+    <div class="card login-card" style="max-width: 450px;">
+      <div class="login-header">
+        <i class="ph ph-user-plus"></i>
+        <h2>Create Account</h2>
+        <p style="color: var(--text-muted); font-size: 0.875rem;">Join the Relational Inventory System</p>
+      </div>
+      <form id="registerForm">
+        <div class="input-group">
+          <label>Full Name</label>
+          <div class="search-box" style="margin-top: 0;"><i class="ph ph-identification-card"></i><input type="text" id="fullname" placeholder="John Doe" required></div>
+        </div>
+        <div class="input-group">
+          <label>Email Address</label>
+          <div class="search-box" style="margin-top: 0;"><i class="ph ph-envelope"></i><input type="email" id="email" placeholder="john@example.com" required></div>
+        </div>
+        <div class="input-group">
+          <label>Username</label>
+          <div class="search-box" style="margin-top: 0;"><i class="ph ph-user"></i><input type="text" id="username" placeholder="johndoe123" required></div>
+        </div>
+        <div class="input-group">
+          <label>Password</label>
+          <div class="search-box" style="margin-top: 0;"><i class="ph ph-key"></i><input type="password" id="password" placeholder="••••••••" required></div>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Sign Up <i class="ph ph-check-circle"></i></button>
+      </form>
+      <div style="text-align: center; margin-top: 1.5rem; color: var(--text-muted); font-size: 0.875rem;">
+        Already have an account? <a href="user_login.html" style="color: var(--primary); text-decoration: none; font-weight: 500;">Sign In</a>
+      </div>
+    </div>
+  </main>
+  <div id="toast-container"></div>
+</body>
+</html>
